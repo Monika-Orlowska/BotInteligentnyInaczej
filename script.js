@@ -17,21 +17,44 @@ function getDeterministicResponse(message) {
 function generateBotResponse(message) {
     const lower = message.toLowerCase();
     if (lower.includes('co robisz')) {
-        return 'Odpowiadam na Twoje pytania. A Ty?';
+        return { text: 'Odpowiadam na Twoje pytania. A Ty?', isGif: false };
     }
     else if (lower.includes('co potrafisz')) {
-        return 'Wszystko! Razem możemy podbijać świat!';
+        return { text: 'Wszystko! Razem możemy podbijać świat!', isGif: false };
     }
     else if (lower.includes('bursztynowa komnata')) {
-        return 'To łatwe: dokładnie tam, gdzie złoty pociąg!';
+        return { text: 'To łatwe: dokładnie tam, gdzie złoty pociąg!', isGif: false };
     }
     else if (lower.includes('wybory')) {
-        return 'gif: https://giphy.com/gifs/eKrgVyZ7zLvJrgZNZn';
+        return { text: 'Wybory!', gifUrl: 'https://media.giphy.com/media/eKrgVyZ7zLvJrgZNZn/giphy.gif', isGif: true };
     }
     else {
-        return getDeterministicResponse(message);
+        return { text: getDeterministicResponse(message), isGif: false };
     }
 }
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const message = input.value.trim();
+    if (message === '') return;
+
+    appendMessage('user', message);
+    input.value = '';
+
+    showTypingIndicator();
+
+    const delay = 500 + Math.random() * 1000;
+    setTimeout(() => {
+        hideTypingIndicator();
+        const response = generateBotResponse(message);
+        if (response.isGif) {
+            appendGifMessage('bot', response.gifUrl);
+        } else {
+            appendMessage('bot', response.text);
+        }
+    }, delay);
+}
+
 
 function showTypingIndicator() {
     const chatWindow = document.getElementById('chat-window');
@@ -91,24 +114,6 @@ function appendGifMessage(sender, gifUrl) {
     messageDiv.appendChild(timestamp);
     chatWindow.appendChild(messageDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-function sendMessage() {
-    const input = document.getElementById('user-input');
-    const message = input.value.trim();
-    if (message === '') return;
-
-    appendMessage('user', message);
-    input.value = '';
-
-    showTypingIndicator();
-
-    const delay = 500 + Math.random() * 1000;
-    setTimeout(() => {
-        hideTypingIndicator();
-        const response = generateBotResponse(message);
-        appendMessage('bot', response);
-    }, delay);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
