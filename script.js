@@ -22,10 +22,10 @@ function generateBotResponse(message) {
     else if (lower.includes('co potrafisz')) {
         return { text: 'Wszystko! Razem możemy podbijać świat!', isGif: false };
     }
-    else if (lower.includes('bursztynowa komnata')) {
+    else if (lower.includes('bursztynowa komnata') || lower.includes('bursztynowej komnaty')) {
         return { text: 'To łatwe: dokładnie tam, gdzie złoty pociąg!', isGif: false };
     }
-    else if (lower.includes('wybory')) {
+    else if (lower.includes('wybory') || lower.includes('wyborów') || lower.includes('Trzaskowski') || lower.includes('Nawrocki')) {
         return { text: 'Wybory!', gifUrl: 'https://media.giphy.com/media/eKrgVyZ7zLvJrgZNZn/giphy.gif', isGif: true };
     }
     else {
